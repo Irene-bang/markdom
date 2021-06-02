@@ -43,21 +43,34 @@
 </head>
 <body>
     <div id="notebook">
-        <div class="left"></div>
-        <div class="middle"></div>
-        <div class="right"></div>
         <div class="input">
-            <textarea>
-                test
-            </textarea>
+            <textarea v-model="content"></textarea>
         </div>
-        <div class="preview"></div>
+        <div class="preview" v-html="markdownPreview"></div>
     </div>
     <script>
-        const html=marked('# hello')
-        console.log(html)
+        //const html=marked('# hello')
+        //console.log(html)
+        //const html_strong=marked('**notice**')
+        //console.log(html_strong)
         var vm=new Vue({
-            el:"#notebook"
+            el:"#notebook",
+            data:{
+                content:''
+            },
+            computed:{
+                markdownPreview(){
+                    return marked(this.content)
+                }
+            },
+            watch:{
+                content(val,oldval){
+                    console.log("new:",val,"old:",oldval)
+                }
+            },
+            created(){
+                this.content=localStorage.getitem('content') || "you can write in **markdown**"
+            }
         })
     </script>
         
